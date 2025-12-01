@@ -7,7 +7,7 @@ import sys
 import os
 import argparse
 from parser.obsact_parser import parse_program
-from codegen.c_generator import generate_c_code
+from c_generator import generate_c_code
 
 def compile_obsact(input_file, output_file=None):
     """Compila um arquivo ObsAct para C"""

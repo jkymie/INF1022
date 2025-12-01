@@ -34,7 +34,7 @@ class CCodeGenerator:
         # Carrega template
         template_path = os.path.join(
             os.path.dirname(__file__), 
-            '..', 'templates', 'template.c'
+            'templates', 'template.c'
         )
         with open(template_path, 'r') as f:
             template = f.read()
