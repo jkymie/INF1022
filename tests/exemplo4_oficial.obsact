@@ -1,0 +1,5 @@
+dispositivos:
+Monitor
+Higrometro[umidade]
+fimdispositivos
+quando umidade < 40 : alerta para Monitor: "Ar seco detectado" ;

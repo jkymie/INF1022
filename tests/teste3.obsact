@@ -1,0 +1,14 @@
+dispositivo : { Temp }
+dispositivo : { Umidade }
+dispositivo : { Ventoinha }
+dispositivo : { Display }
+
+set Temp = 30 .
+set Umidade = 85 .
+set Temp = Umidade .        
+
+se Temp > 28 && Umidade > 80 entao enviar alerta ("Calor e umidade alta!") Display .
+
+se Temp > 28 && Umidade > 80 entao ligar Ventoinha senao desligar Ventoinha .
+
+se Temp > 35 entao enviar alerta ("Aviso: temperatura ", Temp) para todos : Display, Ventoinha .
