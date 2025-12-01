@@ -1,0 +1,755 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ID_DEV_ICE
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> dev_sec cmd_sec
+Rule 2     dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS
+Rule 3     dev_list -> device dev_list
+Rule 4     dev_list -> device
+Rule 5     device -> id_device
+Rule 6     device -> id_device LBRACKET ID_OBS RBRACKET
+Rule 7     id_device -> ID_OBS
+Rule 8     cmd_sec -> cmd_list
+Rule 9     cmd_list -> cmd SEMICOLON cmd_list
+Rule 10    cmd_list -> cmd SEMICOLON
+Rule 11    cmd -> attrib
+Rule 12    cmd -> obsact
+Rule 13    cmd -> act
+Rule 14    attrib -> DEF ID_OBS EQUALS val
+Rule 15    obsact -> QUANDO obs COLON act
+Rule 16    obsact -> QUANDO obs COLON act SENAO act
+Rule 17    obs -> ID_OBS OP_LOGIC val
+Rule 18    obs -> ID_OBS OP_LOGIC val AND obs
+Rule 19    val -> NUM
+Rule 20    val -> bool
+Rule 21    bool -> TRUE
+Rule 22    bool -> FALSE
+Rule 23    act -> EXECUTE action EM id_device
+Rule 24    action -> LIGAR
+Rule 25    action -> DESLIGAR
+Rule 26    act -> ALERTA PARA id_device COLON MSG
+Rule 27    act -> ALERTA PARA id_device COLON MSG COMMA ID_OBS
+Rule 28    act -> DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+Rule 29    act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+Rule 30    dev_list_n -> id_device
+Rule 31    dev_list_n -> id_device COMMA dev_list_n
+
+Terminals, with rules where they appear
+
+ALERTA               : 26 27
+AND                  : 18
+ARROW                : 28 29
+COLON                : 2 15 16 26 27 28 29
+COMMA                : 27 31
+DEF                  : 14
+DESLIGAR             : 25
+DIFUNDIR             : 28 29
+DISPOSITIVOS         : 2
+EM                   : 23
+EQUALS               : 14
+EXECUTE              : 23
+FALSE                : 22
+FIMDISPOSITIVOS      : 2
+ID_DEV_ICE           : 
+ID_OBS               : 6 7 14 17 18 27 29
+LBRACKET             : 6 28 29
+LIGAR                : 24
+MSG                  : 26 27 28 29
+NUM                  : 19
+OP_LOGIC             : 17 18
+PARA                 : 26 27
+QUANDO               : 15 16
+RBRACKET             : 6 28 29
+SEMICOLON            : 9 10
+SENAO                : 16
+TRUE                 : 21
+error                : 
+
+Nonterminals, with rules where they appear
+
+act                  : 13 15 16 16
+action               : 23
+attrib               : 11
+bool                 : 20
+cmd                  : 9 10
+cmd_list             : 8 9
+cmd_sec              : 1
+dev_list             : 2 3
+dev_list_n           : 28 29 31
+dev_sec              : 1
+device               : 3 4
+id_device            : 5 6 23 26 27 30 31
+obs                  : 15 16 18
+obsact               : 12
+program              : 0
+val                  : 14 17 18
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . dev_sec cmd_sec
+    (2) dev_sec -> . DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS
+
+    DISPOSITIVOS    shift and go to state 3
+
+    program                        shift and go to state 1
+    dev_sec                        shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> dev_sec . cmd_sec
+    (8) cmd_sec -> . cmd_list
+    (9) cmd_list -> . cmd SEMICOLON cmd_list
+    (10) cmd_list -> . cmd SEMICOLON
+    (11) cmd -> . attrib
+    (12) cmd -> . obsact
+    (13) cmd -> . act
+    (14) attrib -> . DEF ID_OBS EQUALS val
+    (15) obsact -> . QUANDO obs COLON act
+    (16) obsact -> . QUANDO obs COLON act SENAO act
+    (23) act -> . EXECUTE action EM id_device
+    (26) act -> . ALERTA PARA id_device COLON MSG
+    (27) act -> . ALERTA PARA id_device COLON MSG COMMA ID_OBS
+    (28) act -> . DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> . DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    DEF             shift and go to state 10
+    QUANDO          shift and go to state 11
+    EXECUTE         shift and go to state 12
+    ALERTA          shift and go to state 13
+    DIFUNDIR        shift and go to state 14
+
+    cmd_sec                        shift and go to state 4
+    cmd_list                       shift and go to state 5
+    cmd                            shift and go to state 6
+    attrib                         shift and go to state 7
+    obsact                         shift and go to state 8
+    act                            shift and go to state 9
+
+state 3
+
+    (2) dev_sec -> DISPOSITIVOS . COLON dev_list FIMDISPOSITIVOS
+
+    COLON           shift and go to state 15
+
+
+state 4
+
+    (1) program -> dev_sec cmd_sec .
+
+    $end            reduce using rule 1 (program -> dev_sec cmd_sec .)
+
+
+state 5
+
+    (8) cmd_sec -> cmd_list .
+
+    $end            reduce using rule 8 (cmd_sec -> cmd_list .)
+
+
+state 6
+
+    (9) cmd_list -> cmd . SEMICOLON cmd_list
+    (10) cmd_list -> cmd . SEMICOLON
+
+    SEMICOLON       shift and go to state 16
+
+
+state 7
+
+    (11) cmd -> attrib .
+
+    SEMICOLON       reduce using rule 11 (cmd -> attrib .)
+
+
+state 8
+
+    (12) cmd -> obsact .
+
+    SEMICOLON       reduce using rule 12 (cmd -> obsact .)
+
+
+state 9
+
+    (13) cmd -> act .
+
+    SEMICOLON       reduce using rule 13 (cmd -> act .)
+
+
+state 10
+
+    (14) attrib -> DEF . ID_OBS EQUALS val
+
+    ID_OBS          shift and go to state 17
+
+
+state 11
+
+    (15) obsact -> QUANDO . obs COLON act
+    (16) obsact -> QUANDO . obs COLON act SENAO act
+    (17) obs -> . ID_OBS OP_LOGIC val
+    (18) obs -> . ID_OBS OP_LOGIC val AND obs
+
+    ID_OBS          shift and go to state 19
+
+    obs                            shift and go to state 18
+
+state 12
+
+    (23) act -> EXECUTE . action EM id_device
+    (24) action -> . LIGAR
+    (25) action -> . DESLIGAR
+
+    LIGAR           shift and go to state 21
+    DESLIGAR        shift and go to state 22
+
+    action                         shift and go to state 20
+
+state 13
+
+    (26) act -> ALERTA . PARA id_device COLON MSG
+    (27) act -> ALERTA . PARA id_device COLON MSG COMMA ID_OBS
+
+    PARA            shift and go to state 23
+
+
+state 14
+
+    (28) act -> DIFUNDIR . COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> DIFUNDIR . COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    COLON           shift and go to state 24
+
+
+state 15
+
+    (2) dev_sec -> DISPOSITIVOS COLON . dev_list FIMDISPOSITIVOS
+    (3) dev_list -> . device dev_list
+    (4) dev_list -> . device
+    (5) device -> . id_device
+    (6) device -> . id_device LBRACKET ID_OBS RBRACKET
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    dev_list                       shift and go to state 25
+    device                         shift and go to state 26
+    id_device                      shift and go to state 27
+
+state 16
+
+    (9) cmd_list -> cmd SEMICOLON . cmd_list
+    (10) cmd_list -> cmd SEMICOLON .
+    (9) cmd_list -> . cmd SEMICOLON cmd_list
+    (10) cmd_list -> . cmd SEMICOLON
+    (11) cmd -> . attrib
+    (12) cmd -> . obsact
+    (13) cmd -> . act
+    (14) attrib -> . DEF ID_OBS EQUALS val
+    (15) obsact -> . QUANDO obs COLON act
+    (16) obsact -> . QUANDO obs COLON act SENAO act
+    (23) act -> . EXECUTE action EM id_device
+    (26) act -> . ALERTA PARA id_device COLON MSG
+    (27) act -> . ALERTA PARA id_device COLON MSG COMMA ID_OBS
+    (28) act -> . DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> . DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    $end            reduce using rule 10 (cmd_list -> cmd SEMICOLON .)
+    DEF             shift and go to state 10
+    QUANDO          shift and go to state 11
+    EXECUTE         shift and go to state 12
+    ALERTA          shift and go to state 13
+    DIFUNDIR        shift and go to state 14
+
+    cmd                            shift and go to state 6
+    cmd_list                       shift and go to state 29
+    attrib                         shift and go to state 7
+    obsact                         shift and go to state 8
+    act                            shift and go to state 9
+
+state 17
+
+    (14) attrib -> DEF ID_OBS . EQUALS val
+
+    EQUALS          shift and go to state 30
+
+
+state 18
+
+    (15) obsact -> QUANDO obs . COLON act
+    (16) obsact -> QUANDO obs . COLON act SENAO act
+
+    COLON           shift and go to state 31
+
+
+state 19
+
+    (17) obs -> ID_OBS . OP_LOGIC val
+    (18) obs -> ID_OBS . OP_LOGIC val AND obs
+
+    OP_LOGIC        shift and go to state 32
+
+
+state 20
+
+    (23) act -> EXECUTE action . EM id_device
+
+    EM              shift and go to state 33
+
+
+state 21
+
+    (24) action -> LIGAR .
+
+    EM              reduce using rule 24 (action -> LIGAR .)
+
+
+state 22
+
+    (25) action -> DESLIGAR .
+
+    EM              reduce using rule 25 (action -> DESLIGAR .)
+
+
+state 23
+
+    (26) act -> ALERTA PARA . id_device COLON MSG
+    (27) act -> ALERTA PARA . id_device COLON MSG COMMA ID_OBS
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    id_device                      shift and go to state 34
+
+state 24
+
+    (28) act -> DIFUNDIR COLON . MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> DIFUNDIR COLON . MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    MSG             shift and go to state 35
+
+
+state 25
+
+    (2) dev_sec -> DISPOSITIVOS COLON dev_list . FIMDISPOSITIVOS
+
+    FIMDISPOSITIVOS shift and go to state 36
+
+
+state 26
+
+    (3) dev_list -> device . dev_list
+    (4) dev_list -> device .
+    (3) dev_list -> . device dev_list
+    (4) dev_list -> . device
+    (5) device -> . id_device
+    (6) device -> . id_device LBRACKET ID_OBS RBRACKET
+    (7) id_device -> . ID_OBS
+
+    FIMDISPOSITIVOS reduce using rule 4 (dev_list -> device .)
+    ID_OBS          shift and go to state 28
+
+    device                         shift and go to state 26
+    dev_list                       shift and go to state 37
+    id_device                      shift and go to state 27
+
+state 27
+
+    (5) device -> id_device .
+    (6) device -> id_device . LBRACKET ID_OBS RBRACKET
+
+    ID_OBS          reduce using rule 5 (device -> id_device .)
+    FIMDISPOSITIVOS reduce using rule 5 (device -> id_device .)
+    LBRACKET        shift and go to state 38
+
+
+state 28
+
+    (7) id_device -> ID_OBS .
+
+    LBRACKET        reduce using rule 7 (id_device -> ID_OBS .)
+    ID_OBS          reduce using rule 7 (id_device -> ID_OBS .)
+    FIMDISPOSITIVOS reduce using rule 7 (id_device -> ID_OBS .)
+    COLON           reduce using rule 7 (id_device -> ID_OBS .)
+    SEMICOLON       reduce using rule 7 (id_device -> ID_OBS .)
+    SENAO           reduce using rule 7 (id_device -> ID_OBS .)
+    COMMA           reduce using rule 7 (id_device -> ID_OBS .)
+    RBRACKET        reduce using rule 7 (id_device -> ID_OBS .)
+
+
+state 29
+
+    (9) cmd_list -> cmd SEMICOLON cmd_list .
+
+    $end            reduce using rule 9 (cmd_list -> cmd SEMICOLON cmd_list .)
+
+
+state 30
+
+    (14) attrib -> DEF ID_OBS EQUALS . val
+    (19) val -> . NUM
+    (20) val -> . bool
+    (21) bool -> . TRUE
+    (22) bool -> . FALSE
+
+    NUM             shift and go to state 40
+    TRUE            shift and go to state 42
+    FALSE           shift and go to state 43
+
+    val                            shift and go to state 39
+    bool                           shift and go to state 41
+
+state 31
+
+    (15) obsact -> QUANDO obs COLON . act
+    (16) obsact -> QUANDO obs COLON . act SENAO act
+    (23) act -> . EXECUTE action EM id_device
+    (26) act -> . ALERTA PARA id_device COLON MSG
+    (27) act -> . ALERTA PARA id_device COLON MSG COMMA ID_OBS
+    (28) act -> . DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> . DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    EXECUTE         shift and go to state 12
+    ALERTA          shift and go to state 13
+    DIFUNDIR        shift and go to state 14
+
+    act                            shift and go to state 44
+
+state 32
+
+    (17) obs -> ID_OBS OP_LOGIC . val
+    (18) obs -> ID_OBS OP_LOGIC . val AND obs
+    (19) val -> . NUM
+    (20) val -> . bool
+    (21) bool -> . TRUE
+    (22) bool -> . FALSE
+
+    NUM             shift and go to state 40
+    TRUE            shift and go to state 42
+    FALSE           shift and go to state 43
+
+    val                            shift and go to state 45
+    bool                           shift and go to state 41
+
+state 33
+
+    (23) act -> EXECUTE action EM . id_device
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    id_device                      shift and go to state 46
+
+state 34
+
+    (26) act -> ALERTA PARA id_device . COLON MSG
+    (27) act -> ALERTA PARA id_device . COLON MSG COMMA ID_OBS
+
+    COLON           shift and go to state 47
+
+
+state 35
+
+    (28) act -> DIFUNDIR COLON MSG . ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> DIFUNDIR COLON MSG . ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    ARROW           shift and go to state 48
+    ID_OBS          shift and go to state 49
+
+
+state 36
+
+    (2) dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .
+
+    DEF             reduce using rule 2 (dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .)
+    QUANDO          reduce using rule 2 (dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .)
+    EXECUTE         reduce using rule 2 (dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .)
+    ALERTA          reduce using rule 2 (dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .)
+    DIFUNDIR        reduce using rule 2 (dev_sec -> DISPOSITIVOS COLON dev_list FIMDISPOSITIVOS .)
+
+
+state 37
+
+    (3) dev_list -> device dev_list .
+
+    FIMDISPOSITIVOS reduce using rule 3 (dev_list -> device dev_list .)
+
+
+state 38
+
+    (6) device -> id_device LBRACKET . ID_OBS RBRACKET
+
+    ID_OBS          shift and go to state 50
+
+
+state 39
+
+    (14) attrib -> DEF ID_OBS EQUALS val .
+
+    SEMICOLON       reduce using rule 14 (attrib -> DEF ID_OBS EQUALS val .)
+
+
+state 40
+
+    (19) val -> NUM .
+
+    SEMICOLON       reduce using rule 19 (val -> NUM .)
+    AND             reduce using rule 19 (val -> NUM .)
+    COLON           reduce using rule 19 (val -> NUM .)
+
+
+state 41
+
+    (20) val -> bool .
+
+    SEMICOLON       reduce using rule 20 (val -> bool .)
+    AND             reduce using rule 20 (val -> bool .)
+    COLON           reduce using rule 20 (val -> bool .)
+
+
+state 42
+
+    (21) bool -> TRUE .
+
+    SEMICOLON       reduce using rule 21 (bool -> TRUE .)
+    AND             reduce using rule 21 (bool -> TRUE .)
+    COLON           reduce using rule 21 (bool -> TRUE .)
+
+
+state 43
+
+    (22) bool -> FALSE .
+
+    SEMICOLON       reduce using rule 22 (bool -> FALSE .)
+    AND             reduce using rule 22 (bool -> FALSE .)
+    COLON           reduce using rule 22 (bool -> FALSE .)
+
+
+state 44
+
+    (15) obsact -> QUANDO obs COLON act .
+    (16) obsact -> QUANDO obs COLON act . SENAO act
+
+    SEMICOLON       reduce using rule 15 (obsact -> QUANDO obs COLON act .)
+    SENAO           shift and go to state 51
+
+
+state 45
+
+    (17) obs -> ID_OBS OP_LOGIC val .
+    (18) obs -> ID_OBS OP_LOGIC val . AND obs
+
+    COLON           reduce using rule 17 (obs -> ID_OBS OP_LOGIC val .)
+    AND             shift and go to state 52
+
+
+state 46
+
+    (23) act -> EXECUTE action EM id_device .
+
+    SEMICOLON       reduce using rule 23 (act -> EXECUTE action EM id_device .)
+    SENAO           reduce using rule 23 (act -> EXECUTE action EM id_device .)
+
+
+state 47
+
+    (26) act -> ALERTA PARA id_device COLON . MSG
+    (27) act -> ALERTA PARA id_device COLON . MSG COMMA ID_OBS
+
+    MSG             shift and go to state 53
+
+
+state 48
+
+    (28) act -> DIFUNDIR COLON MSG ARROW . LBRACKET dev_list_n RBRACKET
+
+    LBRACKET        shift and go to state 54
+
+
+state 49
+
+    (29) act -> DIFUNDIR COLON MSG ID_OBS . ARROW LBRACKET dev_list_n RBRACKET
+
+    ARROW           shift and go to state 55
+
+
+state 50
+
+    (6) device -> id_device LBRACKET ID_OBS . RBRACKET
+
+    RBRACKET        shift and go to state 56
+
+
+state 51
+
+    (16) obsact -> QUANDO obs COLON act SENAO . act
+    (23) act -> . EXECUTE action EM id_device
+    (26) act -> . ALERTA PARA id_device COLON MSG
+    (27) act -> . ALERTA PARA id_device COLON MSG COMMA ID_OBS
+    (28) act -> . DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET
+    (29) act -> . DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET
+
+    EXECUTE         shift and go to state 12
+    ALERTA          shift and go to state 13
+    DIFUNDIR        shift and go to state 14
+
+    act                            shift and go to state 57
+
+state 52
+
+    (18) obs -> ID_OBS OP_LOGIC val AND . obs
+    (17) obs -> . ID_OBS OP_LOGIC val
+    (18) obs -> . ID_OBS OP_LOGIC val AND obs
+
+    ID_OBS          shift and go to state 19
+
+    obs                            shift and go to state 58
+
+state 53
+
+    (26) act -> ALERTA PARA id_device COLON MSG .
+    (27) act -> ALERTA PARA id_device COLON MSG . COMMA ID_OBS
+
+    SEMICOLON       reduce using rule 26 (act -> ALERTA PARA id_device COLON MSG .)
+    SENAO           reduce using rule 26 (act -> ALERTA PARA id_device COLON MSG .)
+    COMMA           shift and go to state 59
+
+
+state 54
+
+    (28) act -> DIFUNDIR COLON MSG ARROW LBRACKET . dev_list_n RBRACKET
+    (30) dev_list_n -> . id_device
+    (31) dev_list_n -> . id_device COMMA dev_list_n
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    dev_list_n                     shift and go to state 60
+    id_device                      shift and go to state 61
+
+state 55
+
+    (29) act -> DIFUNDIR COLON MSG ID_OBS ARROW . LBRACKET dev_list_n RBRACKET
+
+    LBRACKET        shift and go to state 62
+
+
+state 56
+
+    (6) device -> id_device LBRACKET ID_OBS RBRACKET .
+
+    ID_OBS          reduce using rule 6 (device -> id_device LBRACKET ID_OBS RBRACKET .)
+    FIMDISPOSITIVOS reduce using rule 6 (device -> id_device LBRACKET ID_OBS RBRACKET .)
+
+
+state 57
+
+    (16) obsact -> QUANDO obs COLON act SENAO act .
+
+    SEMICOLON       reduce using rule 16 (obsact -> QUANDO obs COLON act SENAO act .)
+
+
+state 58
+
+    (18) obs -> ID_OBS OP_LOGIC val AND obs .
+
+    COLON           reduce using rule 18 (obs -> ID_OBS OP_LOGIC val AND obs .)
+
+
+state 59
+
+    (27) act -> ALERTA PARA id_device COLON MSG COMMA . ID_OBS
+
+    ID_OBS          shift and go to state 63
+
+
+state 60
+
+    (28) act -> DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n . RBRACKET
+
+    RBRACKET        shift and go to state 64
+
+
+state 61
+
+    (30) dev_list_n -> id_device .
+    (31) dev_list_n -> id_device . COMMA dev_list_n
+
+    RBRACKET        reduce using rule 30 (dev_list_n -> id_device .)
+    COMMA           shift and go to state 65
+
+
+state 62
+
+    (29) act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET . dev_list_n RBRACKET
+    (30) dev_list_n -> . id_device
+    (31) dev_list_n -> . id_device COMMA dev_list_n
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    dev_list_n                     shift and go to state 66
+    id_device                      shift and go to state 61
+
+state 63
+
+    (27) act -> ALERTA PARA id_device COLON MSG COMMA ID_OBS .
+
+    SEMICOLON       reduce using rule 27 (act -> ALERTA PARA id_device COLON MSG COMMA ID_OBS .)
+    SENAO           reduce using rule 27 (act -> ALERTA PARA id_device COLON MSG COMMA ID_OBS .)
+
+
+state 64
+
+    (28) act -> DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET .
+
+    SEMICOLON       reduce using rule 28 (act -> DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET .)
+    SENAO           reduce using rule 28 (act -> DIFUNDIR COLON MSG ARROW LBRACKET dev_list_n RBRACKET .)
+
+
+state 65
+
+    (31) dev_list_n -> id_device COMMA . dev_list_n
+    (30) dev_list_n -> . id_device
+    (31) dev_list_n -> . id_device COMMA dev_list_n
+    (7) id_device -> . ID_OBS
+
+    ID_OBS          shift and go to state 28
+
+    id_device                      shift and go to state 61
+    dev_list_n                     shift and go to state 67
+
+state 66
+
+    (29) act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n . RBRACKET
+
+    RBRACKET        shift and go to state 68
+
+
+state 67
+
+    (31) dev_list_n -> id_device COMMA dev_list_n .
+
+    RBRACKET        reduce using rule 31 (dev_list_n -> id_device COMMA dev_list_n .)
+
+
+state 68
+
+    (29) act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET .
+
+    SEMICOLON       reduce using rule 29 (act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET .)
+    SENAO           reduce using rule 29 (act -> DIFUNDIR COLON MSG ID_OBS ARROW LBRACKET dev_list_n RBRACKET .)
+
