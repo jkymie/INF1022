@@ -286,22 +286,3 @@ python main.py tests/exemplo8_oficial.obsact saida_exemplo8.c
 # Validate with simulation script
 python teste_validacao.py
 ```
-
-## Compliance
-
-This implementation fully complies with the INF1022 2025.2 course assignment:
-
-✅ Uses LALR(1) parser generator (PLY/Yacc)  
-✅ Implements the exact official grammar  
-✅ Accepts all 8 mandatory examples  
-✅ Generates correct C code  
-✅ Implements required runtime functions  
-✅ Handles undefined variables (default to 0)  
-✅ Implements message concatenation  
-✅ Validates terminal constraints (MSG length, NUM non-negative)  
-✅ Proper keyword recognition and operator precedence
-
-## License
-
-This project is released under the MIT License.
-
