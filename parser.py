@@ -5,11 +5,6 @@ from lexer import tokens
 
 # programa: { 'devices': [ (id, obs?)... ], 'defs': [ (id, val) ... ], 'cmds': [ ... ] }
 
-# Precedência (caso queira estender)
-precedence = (
-    ('left', 'AND'),
-)
-
 def p_PROGRAM(p):
     'PROGRAM : DEV_SEC CMD_SEC'
     p[0] = {
