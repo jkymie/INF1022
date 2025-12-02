@@ -1,0 +1,652 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> PROGRAM
+Rule 1     PROGRAM -> DEV_SEC CMD_SEC
+Rule 2     DEV_SEC -> DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS
+Rule 3     DEV_LIST -> DEV_ITEM
+Rule 4     DEV_LIST -> DEV_LIST DEV_ITEM
+Rule 5     DEV_ITEM -> ID_DEV
+Rule 6     DEV_ITEM -> ID_DEV LSQB ID_OBS RSQB
+Rule 7     CMD_SEC -> <empty>
+Rule 8     CMD_SEC -> CMD_LIST
+Rule 9     CMD_LIST -> CMD PONTOV
+Rule 10    CMD_LIST -> CMD_LIST CMD PONTOV
+Rule 11    CMD -> DEF ID_OBS EQ VAL
+Rule 12    CMD -> QUANDO OBS DP ACT
+Rule 13    CMD -> QUANDO OBS DP ACT SENAO ACT
+Rule 14    OBS -> SIMPLE_OBS
+Rule 15    OBS -> SIMPLE_OBS AND OBS
+Rule 16    SIMPLE_OBS -> ID_OBS OP_LOGIC VAL
+Rule 17    VAL -> NUM
+Rule 18    VAL -> BOOL
+Rule 19    ACT -> EXECUTE ACTION EM ID_DEV
+Rule 20    ACT -> ALERTA PARA ID_DEV DP MSG
+Rule 21    ACT -> ALERTA PARA ID_DEV DP MSG VIRG ID_OBS
+Rule 22    ACT -> DIFUNDIR DP MSG SETAB LSB_DEVLIST
+Rule 23    ACT -> DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST
+Rule 24    LSB_DEVLIST -> LSQB DEV_LIST_N RSQB
+Rule 25    DEV_LIST_N -> ID_DEV
+Rule 26    DEV_LIST_N -> DEV_LIST_N VIRG ID_DEV
+Rule 27    ACTION -> LIGAR
+Rule 28    ACTION -> DESLIGAR
+
+Terminals, with rules where they appear
+
+ALERTA               : 20 21
+AND                  : 15
+BOOL                 : 18
+DEF                  : 11
+DESLIGAR             : 28
+DIFUNDIR             : 22 23
+DISPOSITIVOS         : 2
+DP                   : 2 12 13 20 21 22 23
+EM                   : 19
+EQ                   : 11
+EXECUTE              : 19
+FIMDISPOSITIVOS      : 2
+ID_DEV               : 5 6 19 20 21 25 26
+ID_OBS               : 6 11 16 21 23
+LIGAR                : 27
+LSQB                 : 6 24
+MSG                  : 20 21 22 23
+NUM                  : 17
+OP_LOGIC             : 16
+PARA                 : 20 21
+PONTOV               : 9 10
+QUANDO               : 12 13
+RSQB                 : 6 24
+SENAO                : 13
+SETAB                : 22 23
+VIRG                 : 21 26
+error                : 
+
+Nonterminals, with rules where they appear
+
+ACT                  : 12 13 13
+ACTION               : 19
+CMD                  : 9 10
+CMD_LIST             : 8 10
+CMD_SEC              : 1
+DEV_ITEM             : 3 4
+DEV_LIST             : 2 4
+DEV_LIST_N           : 24 26
+DEV_SEC              : 1
+LSB_DEVLIST          : 22 23
+OBS                  : 12 13 15
+PROGRAM              : 0
+SIMPLE_OBS           : 14 15
+VAL                  : 11 16
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . PROGRAM
+    (1) PROGRAM -> . DEV_SEC CMD_SEC
+    (2) DEV_SEC -> . DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS
+
+    DISPOSITIVOS    shift and go to state 3
+
+    PROGRAM                        shift and go to state 1
+    DEV_SEC                        shift and go to state 2
+
+state 1
+
+    (0) S' -> PROGRAM .
+
+
+
+state 2
+
+    (1) PROGRAM -> DEV_SEC . CMD_SEC
+    (7) CMD_SEC -> .
+    (8) CMD_SEC -> . CMD_LIST
+    (9) CMD_LIST -> . CMD PONTOV
+    (10) CMD_LIST -> . CMD_LIST CMD PONTOV
+    (11) CMD -> . DEF ID_OBS EQ VAL
+    (12) CMD -> . QUANDO OBS DP ACT
+    (13) CMD -> . QUANDO OBS DP ACT SENAO ACT
+
+    $end            reduce using rule 7 (CMD_SEC -> .)
+    DEF             shift and go to state 7
+    QUANDO          shift and go to state 8
+
+    CMD_SEC                        shift and go to state 4
+    CMD_LIST                       shift and go to state 5
+    CMD                            shift and go to state 6
+
+state 3
+
+    (2) DEV_SEC -> DISPOSITIVOS . DP DEV_LIST FIMDISPOSITIVOS
+
+    DP              shift and go to state 9
+
+
+state 4
+
+    (1) PROGRAM -> DEV_SEC CMD_SEC .
+
+    $end            reduce using rule 1 (PROGRAM -> DEV_SEC CMD_SEC .)
+
+
+state 5
+
+    (8) CMD_SEC -> CMD_LIST .
+    (10) CMD_LIST -> CMD_LIST . CMD PONTOV
+    (11) CMD -> . DEF ID_OBS EQ VAL
+    (12) CMD -> . QUANDO OBS DP ACT
+    (13) CMD -> . QUANDO OBS DP ACT SENAO ACT
+
+    $end            reduce using rule 8 (CMD_SEC -> CMD_LIST .)
+    DEF             shift and go to state 7
+    QUANDO          shift and go to state 8
+
+    CMD                            shift and go to state 10
+
+state 6
+
+    (9) CMD_LIST -> CMD . PONTOV
+
+    PONTOV          shift and go to state 11
+
+
+state 7
+
+    (11) CMD -> DEF . ID_OBS EQ VAL
+
+    ID_OBS          shift and go to state 12
+
+
+state 8
+
+    (12) CMD -> QUANDO . OBS DP ACT
+    (13) CMD -> QUANDO . OBS DP ACT SENAO ACT
+    (14) OBS -> . SIMPLE_OBS
+    (15) OBS -> . SIMPLE_OBS AND OBS
+    (16) SIMPLE_OBS -> . ID_OBS OP_LOGIC VAL
+
+    ID_OBS          shift and go to state 15
+
+    OBS                            shift and go to state 13
+    SIMPLE_OBS                     shift and go to state 14
+
+state 9
+
+    (2) DEV_SEC -> DISPOSITIVOS DP . DEV_LIST FIMDISPOSITIVOS
+    (3) DEV_LIST -> . DEV_ITEM
+    (4) DEV_LIST -> . DEV_LIST DEV_ITEM
+    (5) DEV_ITEM -> . ID_DEV
+    (6) DEV_ITEM -> . ID_DEV LSQB ID_OBS RSQB
+
+    ID_DEV          shift and go to state 18
+
+    DEV_LIST                       shift and go to state 16
+    DEV_ITEM                       shift and go to state 17
+
+state 10
+
+    (10) CMD_LIST -> CMD_LIST CMD . PONTOV
+
+    PONTOV          shift and go to state 19
+
+
+state 11
+
+    (9) CMD_LIST -> CMD PONTOV .
+
+    DEF             reduce using rule 9 (CMD_LIST -> CMD PONTOV .)
+    QUANDO          reduce using rule 9 (CMD_LIST -> CMD PONTOV .)
+    $end            reduce using rule 9 (CMD_LIST -> CMD PONTOV .)
+
+
+state 12
+
+    (11) CMD -> DEF ID_OBS . EQ VAL
+
+    EQ              shift and go to state 20
+
+
+state 13
+
+    (12) CMD -> QUANDO OBS . DP ACT
+    (13) CMD -> QUANDO OBS . DP ACT SENAO ACT
+
+    DP              shift and go to state 21
+
+
+state 14
+
+    (14) OBS -> SIMPLE_OBS .
+    (15) OBS -> SIMPLE_OBS . AND OBS
+
+    DP              reduce using rule 14 (OBS -> SIMPLE_OBS .)
+    AND             shift and go to state 22
+
+
+state 15
+
+    (16) SIMPLE_OBS -> ID_OBS . OP_LOGIC VAL
+
+    OP_LOGIC        shift and go to state 23
+
+
+state 16
+
+    (2) DEV_SEC -> DISPOSITIVOS DP DEV_LIST . FIMDISPOSITIVOS
+    (4) DEV_LIST -> DEV_LIST . DEV_ITEM
+    (5) DEV_ITEM -> . ID_DEV
+    (6) DEV_ITEM -> . ID_DEV LSQB ID_OBS RSQB
+
+    FIMDISPOSITIVOS shift and go to state 24
+    ID_DEV          shift and go to state 18
+
+    DEV_ITEM                       shift and go to state 25
+
+state 17
+
+    (3) DEV_LIST -> DEV_ITEM .
+
+    FIMDISPOSITIVOS reduce using rule 3 (DEV_LIST -> DEV_ITEM .)
+    ID_DEV          reduce using rule 3 (DEV_LIST -> DEV_ITEM .)
+
+
+state 18
+
+    (5) DEV_ITEM -> ID_DEV .
+    (6) DEV_ITEM -> ID_DEV . LSQB ID_OBS RSQB
+
+    FIMDISPOSITIVOS reduce using rule 5 (DEV_ITEM -> ID_DEV .)
+    ID_DEV          reduce using rule 5 (DEV_ITEM -> ID_DEV .)
+    LSQB            shift and go to state 26
+
+
+state 19
+
+    (10) CMD_LIST -> CMD_LIST CMD PONTOV .
+
+    DEF             reduce using rule 10 (CMD_LIST -> CMD_LIST CMD PONTOV .)
+    QUANDO          reduce using rule 10 (CMD_LIST -> CMD_LIST CMD PONTOV .)
+    $end            reduce using rule 10 (CMD_LIST -> CMD_LIST CMD PONTOV .)
+
+
+state 20
+
+    (11) CMD -> DEF ID_OBS EQ . VAL
+    (17) VAL -> . NUM
+    (18) VAL -> . BOOL
+
+    NUM             shift and go to state 28
+    BOOL            shift and go to state 29
+
+    VAL                            shift and go to state 27
+
+state 21
+
+    (12) CMD -> QUANDO OBS DP . ACT
+    (13) CMD -> QUANDO OBS DP . ACT SENAO ACT
+    (19) ACT -> . EXECUTE ACTION EM ID_DEV
+    (20) ACT -> . ALERTA PARA ID_DEV DP MSG
+    (21) ACT -> . ALERTA PARA ID_DEV DP MSG VIRG ID_OBS
+    (22) ACT -> . DIFUNDIR DP MSG SETAB LSB_DEVLIST
+    (23) ACT -> . DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST
+
+    EXECUTE         shift and go to state 31
+    ALERTA          shift and go to state 32
+    DIFUNDIR        shift and go to state 33
+
+    ACT                            shift and go to state 30
+
+state 22
+
+    (15) OBS -> SIMPLE_OBS AND . OBS
+    (14) OBS -> . SIMPLE_OBS
+    (15) OBS -> . SIMPLE_OBS AND OBS
+    (16) SIMPLE_OBS -> . ID_OBS OP_LOGIC VAL
+
+    ID_OBS          shift and go to state 15
+
+    SIMPLE_OBS                     shift and go to state 14
+    OBS                            shift and go to state 34
+
+state 23
+
+    (16) SIMPLE_OBS -> ID_OBS OP_LOGIC . VAL
+    (17) VAL -> . NUM
+    (18) VAL -> . BOOL
+
+    NUM             shift and go to state 28
+    BOOL            shift and go to state 29
+
+    VAL                            shift and go to state 35
+
+state 24
+
+    (2) DEV_SEC -> DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS .
+
+    DEF             reduce using rule 2 (DEV_SEC -> DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS .)
+    QUANDO          reduce using rule 2 (DEV_SEC -> DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS .)
+    $end            reduce using rule 2 (DEV_SEC -> DISPOSITIVOS DP DEV_LIST FIMDISPOSITIVOS .)
+
+
+state 25
+
+    (4) DEV_LIST -> DEV_LIST DEV_ITEM .
+
+    FIMDISPOSITIVOS reduce using rule 4 (DEV_LIST -> DEV_LIST DEV_ITEM .)
+    ID_DEV          reduce using rule 4 (DEV_LIST -> DEV_LIST DEV_ITEM .)
+
+
+state 26
+
+    (6) DEV_ITEM -> ID_DEV LSQB . ID_OBS RSQB
+
+    ID_OBS          shift and go to state 36
+
+
+state 27
+
+    (11) CMD -> DEF ID_OBS EQ VAL .
+
+    PONTOV          reduce using rule 11 (CMD -> DEF ID_OBS EQ VAL .)
+
+
+state 28
+
+    (17) VAL -> NUM .
+
+    PONTOV          reduce using rule 17 (VAL -> NUM .)
+    AND             reduce using rule 17 (VAL -> NUM .)
+    DP              reduce using rule 17 (VAL -> NUM .)
+
+
+state 29
+
+    (18) VAL -> BOOL .
+
+    PONTOV          reduce using rule 18 (VAL -> BOOL .)
+    AND             reduce using rule 18 (VAL -> BOOL .)
+    DP              reduce using rule 18 (VAL -> BOOL .)
+
+
+state 30
+
+    (12) CMD -> QUANDO OBS DP ACT .
+    (13) CMD -> QUANDO OBS DP ACT . SENAO ACT
+
+    PONTOV          reduce using rule 12 (CMD -> QUANDO OBS DP ACT .)
+    SENAO           shift and go to state 37
+
+
+state 31
+
+    (19) ACT -> EXECUTE . ACTION EM ID_DEV
+    (27) ACTION -> . LIGAR
+    (28) ACTION -> . DESLIGAR
+
+    LIGAR           shift and go to state 39
+    DESLIGAR        shift and go to state 40
+
+    ACTION                         shift and go to state 38
+
+state 32
+
+    (20) ACT -> ALERTA . PARA ID_DEV DP MSG
+    (21) ACT -> ALERTA . PARA ID_DEV DP MSG VIRG ID_OBS
+
+    PARA            shift and go to state 41
+
+
+state 33
+
+    (22) ACT -> DIFUNDIR . DP MSG SETAB LSB_DEVLIST
+    (23) ACT -> DIFUNDIR . DP MSG ID_OBS SETAB LSB_DEVLIST
+
+    DP              shift and go to state 42
+
+
+state 34
+
+    (15) OBS -> SIMPLE_OBS AND OBS .
+
+    DP              reduce using rule 15 (OBS -> SIMPLE_OBS AND OBS .)
+
+
+state 35
+
+    (16) SIMPLE_OBS -> ID_OBS OP_LOGIC VAL .
+
+    AND             reduce using rule 16 (SIMPLE_OBS -> ID_OBS OP_LOGIC VAL .)
+    DP              reduce using rule 16 (SIMPLE_OBS -> ID_OBS OP_LOGIC VAL .)
+
+
+state 36
+
+    (6) DEV_ITEM -> ID_DEV LSQB ID_OBS . RSQB
+
+    RSQB            shift and go to state 43
+
+
+state 37
+
+    (13) CMD -> QUANDO OBS DP ACT SENAO . ACT
+    (19) ACT -> . EXECUTE ACTION EM ID_DEV
+    (20) ACT -> . ALERTA PARA ID_DEV DP MSG
+    (21) ACT -> . ALERTA PARA ID_DEV DP MSG VIRG ID_OBS
+    (22) ACT -> . DIFUNDIR DP MSG SETAB LSB_DEVLIST
+    (23) ACT -> . DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST
+
+    EXECUTE         shift and go to state 31
+    ALERTA          shift and go to state 32
+    DIFUNDIR        shift and go to state 33
+
+    ACT                            shift and go to state 44
+
+state 38
+
+    (19) ACT -> EXECUTE ACTION . EM ID_DEV
+
+    EM              shift and go to state 45
+
+
+state 39
+
+    (27) ACTION -> LIGAR .
+
+    EM              reduce using rule 27 (ACTION -> LIGAR .)
+
+
+state 40
+
+    (28) ACTION -> DESLIGAR .
+
+    EM              reduce using rule 28 (ACTION -> DESLIGAR .)
+
+
+state 41
+
+    (20) ACT -> ALERTA PARA . ID_DEV DP MSG
+    (21) ACT -> ALERTA PARA . ID_DEV DP MSG VIRG ID_OBS
+
+    ID_DEV          shift and go to state 46
+
+
+state 42
+
+    (22) ACT -> DIFUNDIR DP . MSG SETAB LSB_DEVLIST
+    (23) ACT -> DIFUNDIR DP . MSG ID_OBS SETAB LSB_DEVLIST
+
+    MSG             shift and go to state 47
+
+
+state 43
+
+    (6) DEV_ITEM -> ID_DEV LSQB ID_OBS RSQB .
+
+    FIMDISPOSITIVOS reduce using rule 6 (DEV_ITEM -> ID_DEV LSQB ID_OBS RSQB .)
+    ID_DEV          reduce using rule 6 (DEV_ITEM -> ID_DEV LSQB ID_OBS RSQB .)
+
+
+state 44
+
+    (13) CMD -> QUANDO OBS DP ACT SENAO ACT .
+
+    PONTOV          reduce using rule 13 (CMD -> QUANDO OBS DP ACT SENAO ACT .)
+
+
+state 45
+
+    (19) ACT -> EXECUTE ACTION EM . ID_DEV
+
+    ID_DEV          shift and go to state 48
+
+
+state 46
+
+    (20) ACT -> ALERTA PARA ID_DEV . DP MSG
+    (21) ACT -> ALERTA PARA ID_DEV . DP MSG VIRG ID_OBS
+
+    DP              shift and go to state 49
+
+
+state 47
+
+    (22) ACT -> DIFUNDIR DP MSG . SETAB LSB_DEVLIST
+    (23) ACT -> DIFUNDIR DP MSG . ID_OBS SETAB LSB_DEVLIST
+
+    SETAB           shift and go to state 50
+    ID_OBS          shift and go to state 51
+
+
+state 48
+
+    (19) ACT -> EXECUTE ACTION EM ID_DEV .
+
+    SENAO           reduce using rule 19 (ACT -> EXECUTE ACTION EM ID_DEV .)
+    PONTOV          reduce using rule 19 (ACT -> EXECUTE ACTION EM ID_DEV .)
+
+
+state 49
+
+    (20) ACT -> ALERTA PARA ID_DEV DP . MSG
+    (21) ACT -> ALERTA PARA ID_DEV DP . MSG VIRG ID_OBS
+
+    MSG             shift and go to state 52
+
+
+state 50
+
+    (22) ACT -> DIFUNDIR DP MSG SETAB . LSB_DEVLIST
+    (24) LSB_DEVLIST -> . LSQB DEV_LIST_N RSQB
+
+    LSQB            shift and go to state 54
+
+    LSB_DEVLIST                    shift and go to state 53
+
+state 51
+
+    (23) ACT -> DIFUNDIR DP MSG ID_OBS . SETAB LSB_DEVLIST
+
+    SETAB           shift and go to state 55
+
+
+state 52
+
+    (20) ACT -> ALERTA PARA ID_DEV DP MSG .
+    (21) ACT -> ALERTA PARA ID_DEV DP MSG . VIRG ID_OBS
+
+    SENAO           reduce using rule 20 (ACT -> ALERTA PARA ID_DEV DP MSG .)
+    PONTOV          reduce using rule 20 (ACT -> ALERTA PARA ID_DEV DP MSG .)
+    VIRG            shift and go to state 56
+
+
+state 53
+
+    (22) ACT -> DIFUNDIR DP MSG SETAB LSB_DEVLIST .
+
+    SENAO           reduce using rule 22 (ACT -> DIFUNDIR DP MSG SETAB LSB_DEVLIST .)
+    PONTOV          reduce using rule 22 (ACT -> DIFUNDIR DP MSG SETAB LSB_DEVLIST .)
+
+
+state 54
+
+    (24) LSB_DEVLIST -> LSQB . DEV_LIST_N RSQB
+    (25) DEV_LIST_N -> . ID_DEV
+    (26) DEV_LIST_N -> . DEV_LIST_N VIRG ID_DEV
+
+    ID_DEV          shift and go to state 58
+
+    DEV_LIST_N                     shift and go to state 57
+
+state 55
+
+    (23) ACT -> DIFUNDIR DP MSG ID_OBS SETAB . LSB_DEVLIST
+    (24) LSB_DEVLIST -> . LSQB DEV_LIST_N RSQB
+
+    LSQB            shift and go to state 54
+
+    LSB_DEVLIST                    shift and go to state 59
+
+state 56
+
+    (21) ACT -> ALERTA PARA ID_DEV DP MSG VIRG . ID_OBS
+
+    ID_OBS          shift and go to state 60
+
+
+state 57
+
+    (24) LSB_DEVLIST -> LSQB DEV_LIST_N . RSQB
+    (26) DEV_LIST_N -> DEV_LIST_N . VIRG ID_DEV
+
+    RSQB            shift and go to state 61
+    VIRG            shift and go to state 62
+
+
+state 58
+
+    (25) DEV_LIST_N -> ID_DEV .
+
+    RSQB            reduce using rule 25 (DEV_LIST_N -> ID_DEV .)
+    VIRG            reduce using rule 25 (DEV_LIST_N -> ID_DEV .)
+
+
+state 59
+
+    (23) ACT -> DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST .
+
+    SENAO           reduce using rule 23 (ACT -> DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST .)
+    PONTOV          reduce using rule 23 (ACT -> DIFUNDIR DP MSG ID_OBS SETAB LSB_DEVLIST .)
+
+
+state 60
+
+    (21) ACT -> ALERTA PARA ID_DEV DP MSG VIRG ID_OBS .
+
+    SENAO           reduce using rule 21 (ACT -> ALERTA PARA ID_DEV DP MSG VIRG ID_OBS .)
+    PONTOV          reduce using rule 21 (ACT -> ALERTA PARA ID_DEV DP MSG VIRG ID_OBS .)
+
+
+state 61
+
+    (24) LSB_DEVLIST -> LSQB DEV_LIST_N RSQB .
+
+    SENAO           reduce using rule 24 (LSB_DEVLIST -> LSQB DEV_LIST_N RSQB .)
+    PONTOV          reduce using rule 24 (LSB_DEVLIST -> LSQB DEV_LIST_N RSQB .)
+
+
+state 62
+
+    (26) DEV_LIST_N -> DEV_LIST_N VIRG . ID_DEV
+
+    ID_DEV          shift and go to state 63
+
+
+state 63
+
+    (26) DEV_LIST_N -> DEV_LIST_N VIRG ID_DEV .
+
+    RSQB            reduce using rule 26 (DEV_LIST_N -> DEV_LIST_N VIRG ID_DEV .)
+    VIRG            reduce using rule 26 (DEV_LIST_N -> DEV_LIST_N VIRG ID_DEV .)
+
