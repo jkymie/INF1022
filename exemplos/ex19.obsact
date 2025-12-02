@@ -1,0 +1,9 @@
+dispositivos:
+    Bateria[carga]
+    Indicador
+fimdispositivos
+
+def carga = 100;
+def metade = carga / 2;
+
+quando metade < 60 : alerta para Indicador: "Bateria na metade", metade;

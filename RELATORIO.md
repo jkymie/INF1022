@@ -29,13 +29,15 @@ Implementado utilizando PLY (Python Lex-Yacc), o lexer reconhece os seguintes to
 - `AND`
 
 **Tokens especiais:**
-- `ID_DEV`: Identificadores de dispositivos (começam com letra maiúscula)
-- `ID_OBS`: Identificadores de observáveis (começam com letra minúscula)
+- `ID_DEV`: Identificadores de dispositivos
+- `ID_OBS`: Identificadores de observáveis
 - `NUM`: Números inteiros
 - `MSG`: Strings entre aspas duplas
 - `OP_LOGIC`: Operadores de comparação (`==`, `!=`, `>=`, `<=`, `>`, `<`)
 - `EQ`: Operador de atribuição (`=`)
 - Símbolos: `,`, `:`, `->`, `;`, `[`, `]`
+- **Operadores aritméticos:** `+`, `-`, `*`, `/`
+- **Parênteses:** `(`, `)`
 
 ### 2.2 Analisador Sintático (`parser.py`)
 
@@ -64,11 +66,12 @@ Implementado com PLY-Yacc, o parser constrói uma Árvore Sintática Abstrata (A
 Gera código C completo e executável a partir da AST. 
 
 **Funcionalidades implementadas:**
-- Declaração automática de variáveis inteiras para todos os observáveis
-- Inicialização com valor 0 para observáveis não definidos explicitamente
+- Declaração de variáveis inteiras para todos os observáveis criados
+- Inicialização de variáveis simples e expressões complexas no início do `main()`
 - Geração de funções auxiliares obrigatórias para ações (ligar, desligar, alerta)
 - Tradução de expressões lógicas com operadores `AND`
-- Suporte a estruturas condicionais `if-else`
+- **Criação de expressões aritméticas (+, -, *, /) com precedência correta**
+- **Uso de parênteses para garantir precedência**
 
 **Funções C geradas:**
 ```c
@@ -93,8 +96,11 @@ CMD → ATTR | OBSACT | ACT
 ATTR → def ID_OBS = VAL
 OBSACT → quando OBS : ACT | quando OBS : ACT senao ACT
 OBS → SIMPLE_OBS | SIMPLE_OBS AND OBS
-SIMPLE_OBS → ID_OBS OP_LOGIC VAL
-VAL → NUM | BOOL
+SIMPLE_OBS → EXPR OP_LOGIC EXPR
+VAL → EXPR
+EXPR → EXPR + TERM | EXPR - TERM | TERM
+TERM → TERM * FACTOR | TERM / FACTOR | FACTOR
+FACTOR → NUM | BOOL | ID_OBS | ( EXPR )
 ACT → execute ACTION em ID_DEV | alerta para ID_DEV : MSG | alerta para ID_DEV : MSG , ID_OBS | difundir : MSG -> [ DEV_LIST_N ] | difundir : MSG ID_OBS -> [ DEV_LIST_N ]
 ACTION → ligar | desligar
 DEV_LIST_N → ID_DEV | DEV_LIST_N , ID_DEV
@@ -117,31 +123,36 @@ DEV_LIST_N → ID_DEV | DEV_LIST_N , ID_DEV
    - Para: `ID_DEV | DEV_LIST_N , ID_DEV`
    - Melhora a construção da lista na pilha do parser
 
+3. **SIMPLE_OBS → EXPR OP_LOGIC EXPR**
+   - Alterada de `ID_OBS OP_LOGIC VAL`
+   - Permite expressões aritméticas em ambos os lados da comparação
+   - Exemplos: `temperatura + 5 > 30`, `(x + y) * 2 == z`
+
+4. **VAL → EXPR**
+   - Alterada de `VAL → NUM | BOOL`
+   - Permite atribuições com expressões complexas
+   - Exemplo: `def limite = temperatura + adicional;`
+
+5. **Novas regras para expressões aritméticas:**
+   ```
+   EXPR → EXPR + TERM | EXPR - TERM | TERM
+   TERM → TERM * FACTOR | TERM / FACTOR | FACTOR
+   FACTOR → NUM | BOOL | ID_OBS | ( EXPR )
+   ```
+   - Implementa precedência de operadores (multiplicação/divisão antes de soma/subtração)
+   - Suporta parênteses para alterar precedência
+   - Permite referências a variáveis em expressões: `temperatura + 10`
+   - Suporta números literais e booleanos como fatores
+
 ## 4. Testes Realizados
 
 ### 4.1 Testes usados
 
-Foram utilizados **16 exemplos** de teste (`ex1.obsact` a `ex16.obsact`) cobrindo:
-
-**Testes do enunciado (ex1-ex8):**
-- ex1: Comando condicional simples
-- ex2: Difusão com observável
-- ex3: Múltiplos comandos e else
-- ex4: Observável não definido (valor padrão 0)
-- ex5: Ação direta sem condicional
-- ex6: Comando execute isolado
-- ex7: Alerta simples
-- ex8: Alerta com observável
-
-**Testes criados (ex9-ex16):**
-- ex9: Operador AND com else
-- ex10: Múltiplas condicionais
-- ex11: Difusão com AND
-- ex12: Alerta com observável definido
-- ex13: Else com difusão
-- ex14: Múltiplas condicionais sequenciais
-- ex15: Else sem bloco quando
-- ex16: Dispositivos com mesmo observável
+- Foram utilizados **18 exemplos** de teste (`ex1.obsact` a `ex16.obsact` + exemplos de aritmética) cobrindo:
+- A pasta Exemplos possui no total 24 testes, entre eles:
+    1. Entre 1 a 8: Testes apresentadas no enunciado
+    2. Entre 9 a 16: Testes criados por nós
+    3. Entre 17 a 24: Testes criados para nova funcionalidade (Expressões aritméticas)
 
 ### 4.2 Como testamos
 
@@ -153,10 +164,10 @@ Foram utilizados **16 exemplos** de teste (`ex1.obsact` a `ex16.obsact`) cobrind
 ### 4.3 Resultados
 
 **100% de sucesso em todos os testes!**
-- 16/16 arquivos parseados corretamente
-- 16/16 códigos C gerados sem erros
-- 16/16 compilações bem-sucedidas (sem warnings)
-- 16/16 execuções completadas sem erros de runtime
+- 18/18 arquivos parseados corretamente
+- 18/18 códigos C gerados sem erros
+- 18/18 compilações bem-sucedidas (sem warnings)
+- 18/18 execuções completadas sem erros de runtime
 
 ## 5. Funcionalidades adicionais
 
@@ -164,6 +175,21 @@ Foram utilizados **16 exemplos** de teste (`ex1.obsact` a `ex16.obsact`) cobrind
    - `python lexer.py` testa todos os exemplos automaticamente
    - `python parser.py` testa todos os exemplos automaticamente
    - Relatórios formatados com ✓/✗ para cada teste
+
+2. **Suporte completo a expressões aritméticas:**
+   - Operadores: `+`, `-`, `*`, `/`
+   - Precedência de operadores respeitada (*, / antes de +, -)
+   - Parênteses para controle de precedência
+   - Expressões podem ser usadas em:
+     - Atribuições: `def x = a + b * c;`
+     - Condições: `quando (temperatura + 5) * 2 > limite`
+     - Referências a variáveis: `def resultado = x + y - z;`
+   - Geração otimizada de código C com parênteses para garantir precedência
+
+3. **Gerenciamento de variáveis:**
+   - Variáveis com valores constantes são declaradas globalmente
+   - Variáveis com expressões complexas são declaradas globalmente e inicializadas no `main()`
+   - Variáveis não definidas mas usadas são automaticamente inicializadas com 0
 
 ## 8. Como Executar
 

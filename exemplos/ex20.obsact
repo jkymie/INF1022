@@ -1,0 +1,10 @@
+dispositivos:
+    SensorA[a]
+    SensorB[b]
+    Sistema
+fimdispositivos
+
+def a = 15;
+def b = 8;
+
+quando a + b > 20 AND a - b < 10 : difundir: "Valores equilibrados" -> [Sistema];

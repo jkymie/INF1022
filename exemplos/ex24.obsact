@@ -1,0 +1,11 @@
+dispositivos:
+    SensorP[pressao]
+    SensorT[temp]
+    Alarme
+    Central
+fimdispositivos
+
+def pressao = 1000;
+def temp = 55;
+
+quando pressao / 10 + temp * 2 > 200 : difundir: "Valores criticos" -> [Alarme, Central];

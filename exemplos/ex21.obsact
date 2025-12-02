@@ -1,0 +1,8 @@
+dispositivos:
+    Contador[count]
+    Led
+fimdispositivos
+
+def count = 3;
+
+quando count * count > 8 : execute ligar em Led;

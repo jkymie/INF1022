@@ -92,18 +92,56 @@ def p_OBS_and(p):
     p[0] = ('and', p[1], p[3])
 
 def p_SIMPLE_OBS(p):
-    'SIMPLE_OBS : ID_OBS OP_LOGIC VAL'
+    'SIMPLE_OBS : EXPR OP_LOGIC EXPR'
     p[0] = ('cmp', p[1], p[2], p[3])
 
-# VAL -> NUM | BOOL
+# EXPR -> expressões aritméticas com precedência
 
-def p_VAL_NUM(p):
-    'VAL : NUM'
+def p_EXPR_PLUS(p):
+    'EXPR : EXPR PLUS TERM'
+    p[0] = ('binop', '+', p[1], p[3])
+
+def p_EXPR_MINUS(p):
+    'EXPR : EXPR MINUS TERM'
+    p[0] = ('binop', '-', p[1], p[3])
+
+def p_EXPR_TERM(p):
+    'EXPR : TERM'
+    p[0] = p[1]
+
+def p_TERM_TIMES(p):
+    'TERM : TERM TIMES FACTOR'
+    p[0] = ('binop', '*', p[1], p[3])
+
+def p_TERM_DIVIDE(p):
+    'TERM : TERM DIVIDE FACTOR'
+    p[0] = ('binop', '/', p[1], p[3])
+
+def p_TERM_FACTOR(p):
+    'TERM : FACTOR'
+    p[0] = p[1]
+
+def p_FACTOR_NUM(p):
+    'FACTOR : NUM'
     p[0] = ('num', p[1])
 
-def p_VAL_BOOL(p):
-    'VAL : BOOL'
+def p_FACTOR_BOOL(p):
+    'FACTOR : BOOL'
     p[0] = ('bool', p[1])
+
+def p_FACTOR_ID(p):
+    'FACTOR : ID_OBS'
+    p[0] = ('id', p[1])
+
+def p_FACTOR_PAREN(p):
+    'FACTOR : LPAREN EXPR RPAREN'
+    p[0] = p[2]
+
+# VAL agora é apenas um alias para EXPR (usado em atribuições)
+
+def p_VAL(p):
+    'VAL : EXPR'
+    p[0] = p[1]
 
 # ACT -> execute ACTION em ID_DEV | alerta para ID_DEV : MSG [, ID_OBS] | difundir ...
 

@@ -1,0 +1,11 @@
+dispositivos:
+    Medidor[x]
+    Medidor[y]
+    Monitor
+fimdispositivos
+
+def x = 12;
+def y = 4;
+def media = (x + y) / 2;
+
+quando media == 8 : alerta para Monitor: "Media correta";

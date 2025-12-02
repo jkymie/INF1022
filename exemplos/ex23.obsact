@@ -1,0 +1,9 @@
+dispositivos:
+    Velocidade[v]
+    Freio
+    Acelerador
+fimdispositivos
+
+def v = 80;
+
+quando (v + 20) / 10 > 9 : execute ligar em Freio senao execute ligar em Acelerador;

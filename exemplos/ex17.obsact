@@ -1,0 +1,9 @@
+dispositivos:
+    Sensor[valor]
+    Display
+fimdispositivos
+
+def valor = 10;
+def resultado = valor * 3 + 5;
+
+quando resultado > 30 : alerta para Display: "Resultado alto";

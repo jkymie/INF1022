@@ -5,6 +5,13 @@ def gen_val(v):
         return str(v[1])
     if t == 'bool':
         return '1' if v[1] else '0'
+    if t == 'id':
+        return v[1]
+    if t == 'binop':
+        op = v[1]
+        left = gen_val(v[2])
+        right = gen_val(v[3])
+        return f'({left} {op} {right})'
     raise ValueError('VAL inválido')
 
 # retorna expressão C (string)
@@ -12,9 +19,10 @@ def gen_obs(obs):
     
     typ = obs[0]
     if typ == 'cmp':
-        _, id_obs, op, val = obs
-        cval = gen_val(val)
-        return f'{id_obs} {op} {cval}'
+        _, left, op, right = obs
+        left_c = gen_val(left)
+        right_c = gen_val(right)
+        return f'{left_c} {op} {right_c}'
     if typ == 'and':
         left = gen_obs(obs[1])
         right = gen_obs(obs[2])
@@ -25,9 +33,17 @@ def gen_obs(obs):
 def collect_obs_ids(program):
     obs_ids = set()
     
+    def collect_from_val(val):
+        if val[0] == 'id':
+            obs_ids.add(val[1])
+        elif val[0] == 'binop':
+            collect_from_val(val[2])
+            collect_from_val(val[3])
+    
     def collect_from_obs(obs):
         if obs[0] == 'cmp':
-            obs_ids.add(obs[1])
+            collect_from_val(obs[1])  # left side
+            collect_from_val(obs[3])  # right side
         elif obs[0] == 'and':
             collect_from_obs(obs[1])
             collect_from_obs(obs[2])
@@ -49,6 +65,11 @@ def collect_obs_ids(program):
                 collect_from_act(cmd[3])
         else:
             collect_from_act(cmd)
+    
+    # também coletar das definições
+    defs = program['cmds'].get('defs', []) if isinstance(program.get('cmds'), dict) else []
+    for name, val in defs:
+        collect_from_val(val)
     
     return obs_ids
 
@@ -76,12 +97,23 @@ void alerta_obs(char* dev, char* msg, int obs_val) { printf("%s recebeu o alerta
     defined_obs_ids = {name for name, _ in defs}
     undefined_obs_ids = all_obs_ids - defined_obs_ids
 
-    # declarar variáveis definidas
+    # separar definições simples (constantes) de expressões complexas
+    simple_defs = []
+    complex_defs = []
     for name, val in defs:
-        if val[0] == 'num':
-            vars_code += f'int {name} = {val[1]};\n'
-        elif val[0] == 'bool':
-            vars_code += f'int {name} = {1 if val[1] else 0};\n'
+        if val[0] in ('num', 'bool'):
+            simple_defs.append((name, val))
+        else:
+            complex_defs.append((name, val))
+    
+    # declarar variáveis simples com valores iniciais
+    for name, val in simple_defs:
+        cval = gen_val(val)
+        vars_code += f'int {name} = {cval};\n'
+    
+    # declarar variáveis complexas sem inicialização (serão inicializadas no main)
+    for name, _ in complex_defs:
+        vars_code += f'int {name};\n'
     
     # declarar variáveis não definidas com valor 0
     for name in sorted(undefined_obs_ids):
@@ -89,6 +121,15 @@ void alerta_obs(char* dev, char* msg, int obs_val) { printf("%s recebeu o alerta
 
     # gerar código principal
     main_code = ''
+    
+    # inicializar variáveis complexas no início do main
+    for name, val in complex_defs:
+        cval = gen_val(val)
+        main_code += f'    {name} = {cval};\n'
+    
+    if complex_defs:
+        main_code += '\n'
+    
     for cmd in cmds:
         if cmd[0] == 'quando':
             obs = cmd[1]

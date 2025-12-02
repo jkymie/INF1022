@@ -1,0 +1,9 @@
+dispositivos:
+    Temperatura[temp]
+    Aquecedor
+    Resfriador
+fimdispositivos
+
+def temp = 25;
+
+quando temp - 5 < 20 : execute ligar em Aquecedor senao execute ligar em Resfriador;

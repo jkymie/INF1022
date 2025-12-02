@@ -21,16 +21,30 @@ keywords = {
 
 # lista de tokens
 tokens = [
-    'ID_DEV', 'ID_OBS', 'NUM', 'MSG', 'OP_LOGIC', 'EQ', 'VIRG', 'DP', 'SETAB', 'PONTOV', 'LSQB', 'RSQB'
+    'ID_DEV', 'ID_OBS', 'NUM', 'MSG', 'OP_LOGIC', 'EQ', 'VIRG', 'DP', 'SETAB', 'PONTOV', 'LSQB', 'RSQB',
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN'
 ] + list(set(keywords.values()))
 
 # símbolos simples
 t_VIRG = r','
 t_DP = r':'
-t_SETAB = r'->'
 t_PONTOV = r';'
 t_LSQB = r'\['
 t_RSQB = r'\]'
+t_PLUS = r'\+'
+t_TIMES = r'\*'
+t_DIVIDE = r'/'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+
+# operador -> deve vir antes de - (ordem de definição de funções importa)
+def t_SETAB(t):
+    r'->'
+    return t
+
+def t_MINUS(t):
+    r'-'
+    return t
 
 # operadores lógicos (inclui '=' para atribuição usada como OP_LOGIC no parser)
 t_OP_LOGIC = r'(==|!=|>=|<=|>|<)'
