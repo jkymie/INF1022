@@ -55,11 +55,19 @@ def t_NUM(t):
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     val = t.value
+    # primeiro tenta match exato (preserva chaves como 'AND' se estiverem em maiúsculas)
     if val in keywords:
         t.type = keywords[val]
-        # se keyword 'BOOL', converte value para True/False
         if t.type == 'BOOL':
             t.value = True if val == 'true' else False
+        return t
+
+    # tenta match case-insensitive para palavras-chave (aceita 'True'/'False')
+    val_lower = val.lower()
+    if val_lower in keywords:
+        t.type = keywords[val_lower]
+        if t.type == 'BOOL':
+            t.value = True if val_lower == 'true' else False
         return t
 
     # heurística: nomes com primeira letra maiúscula => dispositivo
@@ -90,7 +98,8 @@ def t_error(t):
 
 lexer = lex.lex()
 
-# validar se o lexer funciona corretamente
+# validar se o lexer funciona corretamente em um determinado exemplo
+"""
 if __name__ == '__main__':
     data = open('exemplos/ex7.obsact').read()
     lexer.input(data)
@@ -99,3 +108,33 @@ if __name__ == '__main__':
         if not tok:
             break
         print(tok)
+"""
+
+# validar se o lexer funciona corretamente em todos os exemplos
+if __name__ == '__main__':
+    import glob
+    import os
+    
+    exemplos = sorted(glob.glob('exemplos/ex*.obsact'))
+    
+    for arquivo in exemplos:
+        nome = os.path.basename(arquivo)
+        print(f"\n{'='*60}")
+        print(f"Testando: {nome}")
+        print('='*60)
+        
+        try:
+            data = open(arquivo).read()
+            lexer.input(data)
+            tokens_list = []
+            while True:
+                tok = lexer.token()
+                if not tok:
+                    break
+                tokens_list.append(tok)
+            
+            print(f"✓ Lexer executado com sucesso! ({len(tokens_list)} tokens)")
+            for tok in tokens_list:
+                print(tok)
+        except Exception as e:
+            print(f"✗ Erro: {e}")

@@ -73,6 +73,11 @@ def p_CMD_ATTR(p):
     # Atribuição: def ID = VAL
     p[0] = ('def', p[2], p[4])
 
+def p_CMD_ACT(p):
+    'CMD : ACT'
+    # Ação standalone (fora de quando)
+    p[0] = p[1]
+
 def p_CMD_OBSACT_simple(p):
     'CMD : QUANDO OBS DP ACT'
     p[0] = ('quando', p[2], p[4], None)
@@ -164,8 +169,32 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-# validar se o parser funciona corretamente
+# validar se o parser funciona corretamente em um determinado exemplo
+"""
 if __name__ == '__main__':
     data = open('exemplos/ex2.obsact').read()
     ast = parser.parse(data)
     import pprint; pprint.pprint(ast)
+"""
+
+# validar se o parser funciona corretamente em todos os exemplos
+if __name__ == '__main__':
+    import glob
+    import os
+    
+    exemplos = sorted(glob.glob('exemplos/ex*.obsact'))
+    
+    for arquivo in exemplos:
+        nome = os.path.basename(arquivo)
+        print(f"\n{'='*60}")
+        print(f"Testando: {nome}")
+        print('='*60)
+        
+        try:
+            data = open(arquivo).read()
+            ast = parser.parse(data)
+            print("✓ Parser executado com sucesso!")
+            import pprint
+            pprint.pprint(ast)
+        except Exception as e:
+            print(f"✗ Erro: {e}")
