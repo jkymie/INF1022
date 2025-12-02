@@ -148,7 +148,7 @@ Foram utilizados **16 exemplos** de teste (`ex1.obsact` a `ex16.obsact`) cobrind
 
 ### 4.3 Resultados
 
-✅ **100% de sucesso em todos os testes!**
+**100% de sucesso em todos os testes!**
 - 16/16 arquivos parseados corretamente
 - 16/16 códigos C gerados sem erros
 - 16/16 compilações bem-sucedidas (sem warnings)
