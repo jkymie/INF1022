@@ -1,0 +1,10 @@
+dispositivos :
+    Camera[ativo]
+    Luz
+    Sirene
+fimdispositivos
+
+quando ativo == true :
+    execute ligar em Luz;
+quando ativo == false :
+    execute desligar em Sirene;

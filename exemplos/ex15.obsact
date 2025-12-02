@@ -1,0 +1,10 @@
+dispositivos :
+    Aquecedor
+    Resfriador
+    Sensor[temp]
+fimdispositivos
+
+quando temp < 18 :
+    execute ligar em Aquecedor
+senao
+    execute ligar em Resfriador;

@@ -1,9 +1,0 @@
-dispositivo : { Umidade }
-dispositivo : { Desumidificador }
-dispositivo : { Monitor }
-
-set Umidade = 35.
-
-se Umidade < 40 entao ligar Desumidificador .
-
-se Umidade < 40 entao enviar alerta ("Ar seco detectado ", Umidade) Monitor .

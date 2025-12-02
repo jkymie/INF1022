@@ -1,0 +1,11 @@
+dispositivos :
+    Portao[aberto]
+    Campainha
+    Monitor1
+    Monitor2
+fimdispositivos
+
+quando aberto == true :
+    difundir: "Portao foi aberto!" -> [Monitor1, Monitor2]
+senao
+    execute ligar em Campainha;

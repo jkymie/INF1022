@@ -1,0 +1,11 @@
+dispositivos :
+    Sensor[nivel]
+    Alarme
+    Display
+fimdispositivos
+
+def nivel = 75;
+quando nivel >= 80 AND nivel < 100 :
+    alerta para Display: "Nivel alto detectado"
+senao
+    execute desligar em Alarme;

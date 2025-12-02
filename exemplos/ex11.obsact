@@ -1,0 +1,11 @@
+dispositivos :
+    Sensor1[temperatura]
+    Sensor2[pressao]
+    Central
+    Backup
+fimdispositivos
+
+def temperatura = 55;
+def pressao = 1020;
+quando temperatura > 50 AND pressao > 1000 :
+    difundir: "Sistema operacional normal" -> [Central, Backup];

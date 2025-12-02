@@ -1,0 +1,8 @@
+dispositivos :
+    Motor[velocidade]
+    Painel
+fimdispositivos
+
+def velocidade = 120;
+quando velocidade > 100 :
+    alerta para Painel: "Velocidade maxima atingida", velocidade;

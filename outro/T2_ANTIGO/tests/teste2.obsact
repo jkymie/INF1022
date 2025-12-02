@@ -1,6 +1,0 @@
-dispositivo : { TempSensor, Temperatura }
-dispositivo : { ArCondicionado }
-
-set Temperatura = 25 .
-
-se Temperatura > 28 entao ligar ArCondicionado senao desligar ArCondicionado .

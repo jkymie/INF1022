@@ -1,0 +1,12 @@
+dispositivos :
+    Bateria[carga]
+    Led
+    Buzzer
+    Tela
+fimdispositivos
+
+def carga = 15;
+quando carga < 20 :
+    execute ligar em Led;
+quando carga < 10 :
+    difundir: "Bateria critica!" -> [Tela, Buzzer];

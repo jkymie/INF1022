@@ -1,4 +1,0 @@
-dispositivos :
-    Termometro[temperatura]
-fimdispositivos
-alerta para Termometro: "Temperatura esta em ", temperatura ;

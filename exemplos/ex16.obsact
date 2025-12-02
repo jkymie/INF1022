@@ -1,0 +1,13 @@
+dispositivos :
+    Detector[presenca]
+    Detector[movimento]
+    LuzSala
+    LuzCorredor
+    Sistema
+fimdispositivos
+
+def presenca = 1;
+quando presenca == 1 AND movimento == 1 :
+    execute ligar em LuzSala;
+quando presenca == 1 :
+    difundir: "Ocupacao detectada no ambiente" -> [Sistema, LuzCorredor];
