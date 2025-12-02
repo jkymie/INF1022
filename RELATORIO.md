@@ -1,5 +1,9 @@
 # Relatório do Trabalho - Compilador ObsAct
 
+## 0. Integrantes do trabalho
+1. Julia Kymie - 2421312
+2. Gabriel Emile - 2220498
+
 ## 1. Descrição do Trabalho
 
 Este trabalho implementa um compilador completo para a linguagem ObsAct. O compilador é composto por três componentes principais:
